@@ -1,0 +1,106 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}My Bookings - TravelEase{% endblock %}
+
+{% block extra_css %}
+<style>
+  body { background: #f9fafb; font-family: 'Inter', sans-serif; color: #111827; }
+  .container { max-width: 1000px; margin: 2rem auto; }
+  .booking-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-left: 5px solid transparent;
+    transition: transform 0.2s ease;
+  }
+  .booking-card:hover { transform: translateY(-3px); }
+
+  .booking-card.confirmed { border-left-color: #10b981; }
+  .booking-card.cancelled { border-left-color: #ef4444; opacity: 0.75; }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .header h1 { font-size: 2.5rem; color: #2563eb; }
+  .header p { color: #6b7280; }
+
+  .booking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .booking-header h3 { margin: 0; font-size: 1.3rem; }
+  .status-badge {
+    padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .status-badge.confirmed { background: #dcfce7; color: #166534; }
+  .status-badge.cancelled { background: #fee2e2; color: #dc2626; }
+  .route { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .route span { flex: 1; font-weight: 600; }
+  .route .arrow { font-size: 1.2rem; color: #2563eb; }
+
+  .details { font-size: 0.9rem; color: #6b7280; margin-bottom: 1rem; }
+  .details strong { color: #111827; }
+
+  .actions { text-align: right; }
+  .actions form { display: inline; }
+  .btn { padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .btn.cancel { background: #ef4444; color: #fff; transition: background 0.2s ease; }
+  .btn.cancel:hover { background: #dc2626; }
+  .btn.back { background: transparent; border: 2px solid #2563eb; color: #2563eb; }
+  .btn.back:hover { background: #2563eb; color: #fff; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="header">
+    <h1>My Bookings</h1>
+    <p>Review and manage your travel reservations</p>
+  </div>
+
+  {% for booking in object_list %}
+    <div class="booking-card {{ booking.status }}">
+      <div class="booking-header">
+        <h3>
+          {% if booking.travel.travel_type == 'Flight' %}
+            ✈️
+          {% elif booking.travel.travel_type == 'Train' %}
+            🚆
+          {% else %}
+            🚌
+          {% endif %}
+          {{ booking.travel.travel_type }} #{{ booking.pk }}
+        </h3>
+        <span class="status-badge {{ booking.status }}">
+          {{ booking.status|title }}
+        </span>
+      </div>
+
+      <div class="route">
+        <span>From: {{ booking.travel.source }}</span>
+        <span class="arrow">→</span>
+        <span>To: {{ booking.travel.destination }}</span>
+      </div>
+
+      <div class="details">
+        <p><strong>Date:</strong> {{ booking.travel.date_time|date:"M d, Y" }}</p>
+        <p><strong>Seats:</strong> {{ booking.seats }}</p>
+        <p><strong>Total:</strong> ${{ booking.total_price }}</p>
+      </div>
+
+      <div class="actions">
+        {% if booking.status == 'confirmed' %}
+          <form method="post" action="{% url 'cancel_booking' booking.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn cancel">Cancel Booking</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <p>You have no bookings yet. <a href="{% url 'travel_list' %}" class="btn back">Browse Trips</a></p>
+  {% endfor %}
+
+  <div style="text-align:center; margin-top:2rem;">
+    <a href="{% url 'travel_list' %}" class="btn back">← Back to Search</a>
+  </div>
+</div>
+{% endblock %}

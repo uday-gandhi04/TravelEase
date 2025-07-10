@@ -1,0 +1,447 @@
+{% extends "./base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Register - TravelEase{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-page {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 2rem 0 !important;
+    }
+
+    .register-page .register-card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border: none !important;
+        border-radius: 20px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+
+    .register-page .register-card::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 5px !important;
+        background: linear-gradient(to right, #2563eb, #9333ea) !important;
+    }
+
+    .register-page .card-body {
+        padding: 3rem !important;
+    }
+
+    .register-page .brand-section {
+        text-align: center !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .register-page .brand-icon {
+        width: 80px !important;
+        height: 80px !important;
+        background: linear-gradient(135deg, #2563eb, #9333ea) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 1rem !important;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3) !important;
+    }
+
+    .register-page .brand-icon i {
+        font-size: 2rem !important;
+        color: white !important;
+    }
+
+    .register-page .card-title {
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        font-size: 1.8rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .register-page .card-subtitle {
+        color: #64748b !important;
+        font-size: 1rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .register-page .form-group {
+        margin-bottom: 1.5rem !important;
+        position: relative !important;
+    }
+
+    .register-page .form-label {
+        color: #374151 !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.5rem !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+    }
+
+    .register-page .form-label i {
+        color: #2563eb !important;
+        width: 16px !important;
+    }
+
+    .register-page .form-control {
+        border: 2px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .register-page .form-control:focus {
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+        background: rgba(255, 255, 255, 1) !important;
+    }
+
+    .register-page .form-control::placeholder {
+        color: #9ca3af !important;
+    }
+
+    .register-page .btn-primary {
+        background: linear-gradient(135deg, #2563eb, #1e40af) !important;
+        border: none !important;
+        padding: 0.875rem 2rem !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3) !important;
+        width: 100% !important;
+    }
+
+    .register-page .btn-primary:hover {
+        background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+    }
+
+    .register-page .btn-primary:active {
+        transform: translateY(0) !important;
+    }
+
+    .register-page .divider {
+        text-align: center !important;
+        margin: 2rem 0 !important;
+        position: relative !important;
+        color: #64748b !important;
+    }
+
+    .register-page .divider::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 1px !important;
+        background: #e5e7eb !important;
+        z-index: 1 !important;
+    }
+
+    .register-page .divider span {
+        background: rgba(255, 255, 255, 0.95) !important;
+        padding: 0 1rem !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .register-page .login-link {
+        text-align: center !important;
+        margin-top: 1.5rem !important;
+        color: #64748b !important;
+    }
+
+    .register-page .login-link a {
+        color: #2563eb !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: color 0.3s ease !important;
+    }
+
+    .register-page .login-link a:hover {
+        color: #1e40af !important;
+        text-decoration: underline !important;
+    }
+
+    .register-page .error-messages {
+        background: #fee2e2 !important;
+        color: #dc2626 !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 8px !important;
+        margin-bottom: 1rem !important;
+        border-left: 4px solid #dc2626 !important;
+    }
+
+    .register-page .error-messages ul {
+        margin: 0 !important;
+        padding-left: 1rem !important;
+    }
+
+    .register-page .field-errors {
+        color: #dc2626 !important;
+        font-size: 0.875rem !important;
+        margin-top: 0.25rem !important;
+    }
+
+    .register-page .field-errors ul {
+        margin: 0 !important;
+        padding-left: 1rem !important;
+        list-style: none !important;
+    }
+
+    .register-page .field-errors li::before {
+        content: '⚠️' !important;
+        margin-right: 0.5rem !important;
+    }
+
+    /* Animation */
+    .register-page .register-card {
+        animation: slideInUp 0.6s ease-out !important;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0 !important;
+            transform: translateY(30px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .register-page .card-body {
+            padding: 2rem 1.5rem !important;
+        }
+
+        .register-page .brand-icon {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .register-page .brand-icon i {
+            font-size: 1.5rem !important;
+        }
+
+        .register-page .card-title {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    /* Loading state */
+    .register-page .btn-primary:disabled {
+        opacity: 0.7 !important;
+        cursor: not-allowed !important;
+        transform: none !important;
+    }
+
+    .register-page .btn-primary.loading::after {
+        content: '' !important;
+        width: 16px !important;
+        height: 16px !important;
+        border: 2px solid transparent !important;
+        border-top: 2px solid white !important;
+        border-radius: 50% !important;
+        animation: spin 1s linear infinite !important;
+        display: inline-block !important;
+        margin-left: 0.5rem !important;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg) !important; }
+        100% { transform: rotate(360deg) !important; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-page">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7"> {# Increased column width for more fields #}
+                <div class="card shadow-lg register-card">
+                    <div class="card-body">
+                        <!-- Brand Section -->
+                        <div class="brand-section">
+                            <div class="brand-icon">
+                                <i class="fas fa-plane"></i>
+                            </div>
+                            <h3 class="card-title">Create Your Account</h3>
+                            <p class="card-subtitle">Join TravelEase and start your journey</p>
+                        </div>
+
+                        <!-- Error Messages -->
+                        {% if form.non_field_errors %}
+                            <div class="error-messages">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Registration Form -->
+                        <form method="post" id="registerForm">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-user"></i>
+                                            Username
+                                        </label>
+                                        {% if form.username.errors %}
+                                            <div class="field-errors">
+                                                {{ form.username.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.username|add_class:"form-control"|attr:"placeholder:Choose a username" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-envelope"></i>
+                                            Email
+                                        </label>
+                                        {% if form.email.errors %}
+                                            <div class="field-errors">
+                                                {{ form.email.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.email|add_class:"form-control"|attr:"placeholder:Enter your email" }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-user"></i>
+                                            First Name
+                                        </label>
+                                        {% if form.first_name.errors %}
+                                            <div class="field-errors">
+                                                {{ form.first_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.first_name|add_class:"form-control"|attr:"placeholder:Enter your first name" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-user"></i>
+                                            Last Name
+                                        </label>
+                                        {% if form.last_name.errors %}
+                                            <div class="field-errors">
+                                                {{ form.last_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.last_name|add_class:"form-control"|attr:"placeholder:Enter your last name" }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-lock"></i>
+                                            Password
+                                        </label>
+                                        {% if form.password1.errors %}
+                                            <div class="field-errors">
+                                                {{ form.password1.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.password1|add_class:"form-control"|attr:"placeholder:Enter your password" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fas fa-lock"></i>
+                                            Confirm Password
+                                        </label>
+                                        {% if form.password2.errors %}
+                                            <div class="field-errors">
+                                                {{ form.password2.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {{ form.password2|add_class:"form-control"|attr:"placeholder:Confirm your password" }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary" id="registerBtn">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    Sign Up
+                                </button>
+                            </div>
+                        </form>
+
+
+                        <!-- Login Link -->
+                        <div class="login-link">
+                            Already have an account?
+                            <a href="{% url 'login' %}">Log In</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        // Add loading state on form submission
+        form.addEventListener('submit', function() {
+            registerBtn.classList.add('loading');
+            registerBtn.disabled = true;
+            
+            // Re-enable button after 5 seconds (fallback)
+            setTimeout(() => {
+                registerBtn.classList.remove('loading');
+                registerBtn.disabled = false;
+            }, 5000);
+        });
+
+        // Add focus effects
+        const inputs = document.querySelectorAll('.form-group input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    });
+</script>
+{% endblock %}

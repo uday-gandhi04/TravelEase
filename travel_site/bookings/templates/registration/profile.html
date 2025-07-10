@@ -1,0 +1,255 @@
+{% extends "./base.html" %}
+
+{% block title %}Your Profile | TravelEase{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-display-page {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+        min-height: 100vh !important;
+        padding: 2rem 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .profile-display-page .container {
+        max-width: 700px !important;
+        margin: auto !important;
+    }
+
+    .profile-display-page .profile-card {
+        background: #ffffff !important;
+        padding: 3rem !important;
+        border-radius: 20px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+        border: none !important;
+        position: relative !important;
+        overflow: hidden !important;
+        animation: slideInUp 0.6s ease-out !important;
+    }
+
+    .profile-display-page .profile-card::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 5px !important;
+        background: linear-gradient(to right, #2563eb, #9333ea) !important;
+    }
+
+    .profile-display-page .profile-header {
+        text-align: center !important;
+        margin-bottom: 2.5rem !important;
+        position: relative !important;
+    }
+
+    .profile-display-page .profile-avatar {
+        width: 100px !important;
+        height: 100px !important;
+        background: linear-gradient(135deg, #2563eb, #9333ea) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 1rem !important;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3) !important;
+        position: relative !important;
+    }
+
+    .profile-display-page .profile-avatar i {
+        font-size: 2.5rem !important;
+        color: white !important;
+    }
+
+    .profile-display-page h2 {
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        font-size: 2rem !important;
+        margin: 0 0 0.5rem 0 !important;
+    }
+
+    .profile-display-page .profile-subtitle {
+        color: #64748b !important;
+        font-size: 1rem !important;
+        margin-bottom: 0 !important;
+    }
+
+    .profile-display-page .profile-info {
+        margin-top: 2rem !important;
+    }
+
+    .profile-display-page .info-item {
+        display: flex !important;
+        align-items: center !important;
+        margin-bottom: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+    }
+
+    .profile-display-page .info-item:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+    }
+
+    .profile-display-page .info-icon {
+        color: #2563eb !important;
+        font-size: 1.2rem !important;
+        width: 30px !important;
+        text-align: center !important;
+        margin-right: 1rem !important;
+    }
+
+    .profile-display-page .info-label {
+        font-weight: 600 !important;
+        color: #374151 !important;
+        min-width: 100px !important;
+    }
+
+    .profile-display-page .info-value {
+        color: #111827 !important;
+        flex-grow: 1 !important;
+    }
+
+    .profile-display-page .btn-edit {
+        background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+        color: #ffffff !important;
+        padding: 0.875rem 2rem !important;
+        border: none !important;
+        border-radius: 12px !important;
+        cursor: pointer !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        margin-top: 2.5rem !important;
+    }
+
+    .profile-display-page .btn-edit:hover {
+        background: linear-gradient(135deg, #d97706, #b45309) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4) !important;
+    }
+
+    .profile-display-page .btn-edit:active {
+        transform: translateY(0) !important;
+    }
+
+    /* Animation */
+    @keyframes slideInUp {
+        from {
+            opacity: 0 !important;
+            transform: translateY(30px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .profile-display-page .container {
+            margin: 1rem !important;
+            max-width: none !important;
+        }
+
+        .profile-display-page .profile-card {
+            padding: 2rem 1.5rem !important;
+        }
+
+        .profile-display-page h2 {
+            font-size: 1.5rem !important;
+        }
+
+        .profile-display-page .profile-avatar {
+            width: 80px !important;
+            height: 80px !important;
+        }
+
+        .profile-display-page .profile-avatar i {
+            font-size: 2rem !important;
+        }
+
+        .profile-display-page .info-item {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+        }
+
+        .profile-display-page .info-label {
+            min-width: auto !important;
+        }
+
+        .profile-display-page .btn-edit {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-display-page">
+    <div class="container">
+        <div class="profile-card">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2>Your Profile</h2>
+                <p class="profile-subtitle">View your personal information</p>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="profile-info">
+                <div class="info-item">
+                    <i class="fas fa-user info-icon"></i>
+                    <span class="info-label">Username:</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-signature info-icon"></i>
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope info-icon"></i>
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">{{ user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone info-icon"></i>
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">{{ user.userprofile.phone_number|default:"N/A" }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt info-icon"></i>
+                    <span class="info-label">Address:</span>
+                    <span class="info-value">{{ user.userprofile.address|default:"N/A" }}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-birthday-cake info-icon"></i>
+                    <span class="info-label">DOB:</span>
+                    <span class="info-value">{{ user.userprofile.date_of_birth|default:"N/A" }}</span>
+                </div>
+            </div>
+
+            <!-- Edit Button -->
+            <div class="text-center">
+                <a class="btn-edit" href="{% url 'bookings:profile_update' %}">
+                    <i class="fas fa-edit me-2"></i>Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

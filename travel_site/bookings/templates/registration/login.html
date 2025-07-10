@@ -1,0 +1,417 @@
+{% extends "./base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Login - TravelEase{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-page {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 2rem 0 !important;
+    }
+
+    .login-page .login-card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border: none !important;
+        border-radius: 20px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+
+    .login-page .login-card::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 5px !important;
+        background: linear-gradient(to right, #2563eb, #9333ea) !important;
+    }
+
+    .login-page .card-body {
+        padding: 3rem !important;
+    }
+
+    .login-page .brand-section {
+        text-align: center !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .login-page .brand-icon {
+        width: 80px !important;
+        height: 80px !important;
+        background: linear-gradient(135deg, #2563eb, #9333ea) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 1rem !important;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3) !important;
+    }
+
+    .login-page .brand-icon i {
+        font-size: 2rem !important;
+        color: white !important;
+    }
+
+    .login-page .card-title {
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        font-size: 1.8rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .login-page .card-subtitle {
+        color: #64748b !important;
+        font-size: 1rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .login-page .form-group {
+        margin-bottom: 1.5rem !important;
+        position: relative !important;
+    }
+
+    .login-page .form-label {
+        color: #374151 !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.5rem !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+    }
+
+    .login-page .form-label i {
+        color: #2563eb !important;
+        width: 16px !important;
+    }
+
+    .login-page .form-control {
+        border: 2px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .login-page .form-control:focus {
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+        background: rgba(255, 255, 255, 1) !important;
+    }
+
+    .login-page .form-control::placeholder {
+        color: #9ca3af !important;
+    }
+
+    .login-page .btn-primary {
+        background: linear-gradient(135deg, #2563eb, #1e40af) !important;
+        border: none !important;
+        padding: 0.875rem 2rem !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3) !important;
+        width: 100% !important;
+    }
+
+    .login-page .btn-primary:hover {
+        background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4) !important;
+    }
+
+    .login-page .btn-primary:active {
+        transform: translateY(0) !important;
+    }
+
+    .login-page .divider {
+        text-align: center !important;
+        margin: 2rem 0 !important;
+        position: relative !important;
+        color: #64748b !important;
+    }
+
+    .login-page .divider::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 1px !important;
+        background: #e5e7eb !important;
+        z-index: 1 !important;
+    }
+
+    .login-page .divider span {
+        background: rgba(255, 255, 255, 0.95) !important;
+        padding: 0 1rem !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .login-page .signup-link {
+        text-align: center !important;
+        margin-top: 1.5rem !important;
+        color: #64748b !important;
+    }
+
+    .login-page .signup-link a {
+        color: #2563eb !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: color 0.3s ease !important;
+    }
+
+    .login-page .signup-link a:hover {
+        color: #1e40af !important;
+        text-decoration: underline !important;
+    }
+
+    .login-page .error-messages {
+        background: #fee2e2 !important;
+        color: #dc2626 !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 8px !important;
+        margin-bottom: 1rem !important;
+        border-left: 4px solid #dc2626 !important;
+    }
+
+    .login-page .error-messages ul {
+        margin: 0 !important;
+        padding-left: 1rem !important;
+    }
+
+    .login-page .field-errors {
+        color: #dc2626 !important;
+        font-size: 0.875rem !important;
+        margin-top: 0.25rem !important;
+    }
+
+    .login-page .field-errors ul {
+        margin: 0 !important;
+        padding-left: 1rem !important;
+        list-style: none !important;
+    }
+
+    .login-page .field-errors li::before {
+        content: '⚠️' !important;
+        margin-right: 0.5rem !important;
+    }
+
+    .login-page .remember-me {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .login-page .remember-me input[type="checkbox"] {
+        width: 18px !important;
+        height: 18px !important;
+        accent-color: #2563eb !important;
+    }
+
+    .login-page .forgot-password {
+        text-align: right !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .login-page .forgot-password a {
+        color: #2563eb !important;
+        text-decoration: none !important;
+        font-size: 0.9rem !important;
+        transition: color 0.3s ease !important;
+    }
+
+    .login-page .forgot-password a:hover {
+        color: #1e40af !important;
+        text-decoration: underline !important;
+    }
+
+    /* Animation */
+    .login-page .login-card {
+        animation: slideInUp 0.6s ease-out !important;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0 !important;
+            transform: translateY(30px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .login-page .card-body {
+            padding: 2rem 1.5rem !important;
+        }
+
+        .login-page .brand-icon {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .login-page .brand-icon i {
+            font-size: 1.5rem !important;
+        }
+
+        .login-page .card-title {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    /* Loading state */
+    .login-page .btn-primary:disabled {
+        opacity: 0.7 !important;
+        cursor: not-allowed !important;
+        transform: none !important;
+    }
+
+    .login-page .btn-primary.loading::after {
+        content: '' !important;
+        width: 16px !important;
+        height: 16px !important;
+        border: 2px solid transparent !important;
+        border-top: 2px solid white !important;
+        border-radius: 50% !important;
+        animation: spin 1s linear infinite !important;
+        display: inline-block !important;
+        margin-left: 0.5rem !important;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg) !important; }
+        100% { transform: rotate(360deg) !important; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-page">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg login-card">
+                    <div class="card-body">
+                        <!-- Brand Section -->
+                        <div class="brand-section">
+                            <div class="brand-icon">
+                                <i class="fas fa-plane"></i>
+                            </div>
+                            <h3 class="card-title">Welcome Back</h3>
+                            <p class="card-subtitle">Sign in to continue your journey</p>
+                        </div>
+
+                        <!-- Error Messages -->
+                        {% if form.non_field_errors %}
+                            <div class="error-messages">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Login Form -->
+                        <form method="post" id="loginForm">
+                            {% csrf_token %}
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    Username
+                                </label>
+                                {% if form.username.errors %}
+                                    <div class="field-errors">
+                                        {{ form.username.errors }}
+                                    </div>
+                                {% endif %}
+                                {{ form.username|add_class:"form-control"|attr:"placeholder:Enter your username" }}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-lock"></i>
+                                    Password
+                                </label>
+                                {% if form.password.errors %}
+                                    <div class="field-errors">
+                                        {{ form.password.errors }}
+                                    </div>
+                                {% endif %}
+                                {{ form.password|add_class:"form-control"|attr:"placeholder:Enter your password" }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary" id="loginBtn">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Log In
+                                </button>
+                            </div>
+                        </form>
+
+
+                        <!-- Sign Up Link -->
+                        <div class="signup-link">
+                            Don't have an account?
+                            <a href="{% url 'bookings:register' %}">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        // Add loading state on form submission
+        form.addEventListener('submit', function() {
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+            
+            // Re-enable button after 5 seconds (fallback)
+            setTimeout(() => {
+                loginBtn.classList.remove('loading');
+                loginBtn.disabled = false;
+            }, 5000);
+        });
+
+        // Add enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && (e.target.matches('input[type="text"]') || e.target.matches('input[type="password"]'))) {
+                form.submit();
+            }
+        });
+
+        // Add focus effects
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    });
+</script>
+{% endblock %}
