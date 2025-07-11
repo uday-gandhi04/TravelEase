@@ -33,6 +33,10 @@ class TravelListView(LoginRequiredMixin,generic.ListView):
         if params.get('date'):
             queryset = queryset.filter(datetime__date=params['date'])
 
+        from django.utils import timezone
+        now = timezone.now()
+        queryset = queryset.filter(departure_datetime__gte=now)
+
         return queryset
 
 # ---------------- Travel Booking ---------------- #
