@@ -359,7 +359,7 @@
         <strong>Arrival:</strong> {{ travel_option.departure_datetime|time:"H:i" }}
       </p>
       <p><strong>Available Seats:</strong> {{ travel_option.available_seats }}</p>
-      <p><strong>Price per Seat:</strong> ${{ travel_option.price }}</p>
+      <p><strong>Price per Seat:</strong> ₹{{ travel_option.price }}</p>
     </div>
 
     <form method="post">
@@ -411,12 +411,12 @@
       <div class="summary mb-4">
         <h3>Total Summary</h3>
         <p><strong>Tickets:</strong>
-          <span id="summary-seats">1</span> × ${{ travel_option.price }}
+          <span id="summary-seats">1</span> × ₹{{ travel_option.price }}
         </p>
-        <p><strong>Service Fee:</strong> $5.00</p>
+        <p><strong>Service Fee:</strong> ₹50.00</p>
         <p><strong>Total:</strong>
           <span id="summary-total">
-            ${{ travel_option.price|add:5 }}
+            ${{ travel_option.price|add:50 }}
           </span>
         </p>
       </div>
@@ -432,7 +432,7 @@
 {% block extra_js %}
 <script>
   const basePrice  = {{ travel_option.price }};
-  const serviceFee = 5;
+  const serviceFee = 50;
 
   function selectSeats(count) {
     document.querySelectorAll('.seat-btn').forEach(btn => btn.classList.remove('active'));
@@ -440,7 +440,7 @@
     selectedBtn.classList.add('active');
     document.getElementById('seats-input').value = count;
     document.getElementById('summary-seats').innerText = count;
-    document.getElementById('summary-total').innerText = `$${(basePrice * count) + serviceFee}`;
+    document.getElementById('summary-total').innerText = `₹${(basePrice * count) + serviceFee}`;
   }
 
   document.addEventListener('DOMContentLoaded', () => selectSeats(1));
