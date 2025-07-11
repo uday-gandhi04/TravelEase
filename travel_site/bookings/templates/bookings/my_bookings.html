@@ -88,7 +88,7 @@
 
       <div class="actions">
         {% if booking.status == 'confirmed' %}
-          <form method="post" action="{% url 'cancel_booking' booking.pk %}">
+          <form method="POST" action="{% url 'bookings:cancel_booking' booking.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn cancel">Cancel Booking</button>
           </form>
@@ -96,11 +96,11 @@
       </div>
     </div>
   {% empty %}
-    <p>You have no bookings yet. <a href="{% url 'travel_list' %}" class="btn back">Browse Trips</a></p>
+    <p>You have no bookings yet. <a href="{% url 'bookings:travel_list' %}" class="btn back">Browse Trips</a></p>
   {% endfor %}
 
   <div style="text-align:center; margin-top:2rem;">
-    <a href="{% url 'travel_list' %}" class="btn back">← Back to Search</a>
+    <a href="{% url 'bookings:travel_list' %}" class="btn back">← Back to Search</a>
   </div>
 </div>
 {% endblock %}

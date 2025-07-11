@@ -139,22 +139,26 @@ class ProfileUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
     form_class = ProfileUpdateForm
     template_name = 'registration/profile_update.html'
-    success_url = reverse_lazy('bookings:profile')
+    # redirect back to the edit form on success:
+    success_url = reverse_lazy('profile_update')
     login_url = 'login'
 
     def get_object(self, queryset=None):
+        # we still want to edit the UserProfile, but the form
+        # actually returns/edits the related User as well
         return self.request.user.userprofile
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # ✅ Pass user to form
+        kwargs['user'] = self.request.user
         return kwargs
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        # ensure the profile instance is saved
         self.request.user.userprofile.save()
         return response
-    
+
 
 # ---------------- Profile View ---------------- #
 class ProfileView(LoginRequiredMixin, generic.DetailView):
