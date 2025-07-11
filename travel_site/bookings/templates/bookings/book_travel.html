@@ -331,93 +331,118 @@
 
 {% block content %}
 <div class="booking-page">
-    <div class="container">
-        <div class="header">
-            <h1>Book Your Journey</h1>
-            <p class="mt-2">Complete your travel details and reserve your seat.</p>
-        </div>
-
-        <div class="card">
-            <div class="badge">{{ travel_option.travel_type }}</div>
-            <div class="route">
-                <span><strong>From:</strong> {{ travel_option.source }}</span>
-                <span><i class="fas fa-arrow-right"></i></span>
-                <span><strong>To:</strong> {{ travel_option.destination }}</span>
-            </div>
-            <p><strong>Date:</strong> {{ travel_option.date_time|date:"M d, Y" }}</p>
-            <p><strong>Departure:</strong> {{ travel_option.departure_time|time:"H:i" }} | 
-               <strong>Arrival:</strong> {{ travel_option.arrival_time|time:"H:i" }}</p>
-            <p><strong>Available Seats:</strong> {{ travel_option.available_seats }}</p>
-            <p><strong>Price per Seat:</strong> ${{ travel_option.price }}</p>
-        </div>
-
-        <form method="post">
-            {% csrf_token %}
-            <div class="card">
-                <h4>Select Number of Seats</h4>
-                <div class="seat-buttons">
-                    {% for i in "123456"|make_list %}
-                        <div class="seat-btn" onclick="selectSeats({{ i }})" data-val="{{ i }}">
-                            {{ i }} Seat{{ i|pluralize }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <input type="hidden" name="seats" id="seats-input" value="1">
-            </div>
-
-            <div class="card">
-                <h4>Passenger Details</h4>
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" name="name" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" name="email" id="email" value="{{ user.email }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" name="phone" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="notes">Special Requirements</label>
-                    <textarea name="notes" id="notes" rows="3" placeholder="Any preferences or accessibility requirements?"></textarea>
-                </div>
-            </div>
-
-            <div class="summary">
-                <h3>Total Summary</h3>
-                <p><strong>Tickets:</strong> <span id="summary-seats">1</span> × ${{ travel_option.price }}</p>
-                <p><strong>Service Fee:</strong> $5.00</p>
-                <p><strong>Total:</strong> <span id="summary-total">${{ travel_option.price|add:5 }}</span></p>
-            </div>
-
-            <button type="submit" class="btn">
-                <i class="fas fa-credit-card"></i> Confirm Booking
-            </button>
-        </form>
+  <div class="container">
+    <div class="header">
+      <h1>Book Your Journey</h1>
+      <p class="mt-2">Complete your travel details and reserve your seat.</p>
     </div>
+
+    {# show non‑field errors at top #}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for err in form.non_field_errors %}
+          {{ err }}<br>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="card mb-4">
+      <div class="badge">{{ travel_option.get_type_display }}</div>
+      <div class="route">
+        <span><strong>From:</strong> {{ travel_option.source }}</span>
+        <span><i class="fas fa-arrow-right"></i></span>
+        <span><strong>To:</strong> {{ travel_option.destination }}</span>
+      </div>
+      <p><strong>Date:</strong> {{ travel_option.departure_datetime|date:"M d, Y" }}</p>
+      <p>
+        <strong>Departure:</strong> {{ travel_option.departure_datetime|time:"H:i" }} |
+        <strong>Arrival:</strong> {{ travel_option.departure_datetime|time:"H:i" }}
+      </p>
+      <p><strong>Available Seats:</strong> {{ travel_option.available_seats }}</p>
+      <p><strong>Price per Seat:</strong> ${{ travel_option.price }}</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="card mb-4">
+        <h4>Select Number of Seats</h4>
+        <div class="seat-buttons">
+          {% for i in "123456"|make_list %}
+            <div class="seat-btn"
+                 onclick="selectSeats({{ i }})"
+                 data-val="{{ i }}">
+              {{ i }} Seat{{ i|pluralize }}
+            </div>
+          {% endfor %}
+        </div>
+        <input type="hidden" name="seats" id="seats-input" value="1">
+
+        {# seats field error #}
+        {% if form.seats.errors %}
+          <small class="text-danger">
+            {{ form.seats.errors.0 }}
+          </small>
+        {% endif %}
+      </div>
+
+      <div class="card mb-4">
+        <h4>Passenger Details</h4>
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" name="email" id="email" class="form-control"
+                 value="{{ user.email }}" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" name="phone" id="phone" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="notes">Special Requirements</label>
+          <textarea name="notes" id="notes" class="form-control" rows="3"
+                    placeholder="Any preferences or accessibility requirements?"></textarea>
+        </div>
+      </div>
+
+      <div class="summary mb-4">
+        <h3>Total Summary</h3>
+        <p><strong>Tickets:</strong>
+          <span id="summary-seats">1</span> × ${{ travel_option.price }}
+        </p>
+        <p><strong>Service Fee:</strong> $5.00</p>
+        <p><strong>Total:</strong>
+          <span id="summary-total">
+            ${{ travel_option.price|add:5 }}
+          </span>
+        </p>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-credit-card me-2"></i> Confirm Booking
+      </button>
+    </form>
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    const basePrice = {{ travel_option.price }};
-    const serviceFee = 5;
+  const basePrice  = {{ travel_option.price }};
+  const serviceFee = 5;
 
-    function selectSeats(count) {
-        document.querySelectorAll('.seat-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        const selectedBtn = document.querySelector(`.seat-btn[data-val="${count}"]`);
-        selectedBtn.classList.add('active');
-        document.getElementById('seats-input').value = count;
-        document.getElementById('summary-seats').innerText = count;
-        document.getElementById('summary-total').innerText = `$${(basePrice * count) + serviceFee}`;
-    }
+  function selectSeats(count) {
+    document.querySelectorAll('.seat-btn').forEach(btn => btn.classList.remove('active'));
+    const selectedBtn = document.querySelector(`.seat-btn[data-val="${count}"]`);
+    selectedBtn.classList.add('active');
+    document.getElementById('seats-input').value = count;
+    document.getElementById('summary-seats').innerText = count;
+    document.getElementById('summary-total').innerText = `$${(basePrice * count) + serviceFee}`;
+  }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        selectSeats(1);
-    });
+  document.addEventListener('DOMContentLoaded', () => selectSeats(1));
 </script>
 {% endblock %}
